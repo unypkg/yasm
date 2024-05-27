@@ -51,9 +51,10 @@ echo "newer" >release-"$pkgname"
 
 git_clone_source_repo
 
-#cd "$pkgname" || exit
-#./autogen.sh
-#cd /uny/sources || exit
+cd "$pkgname" || exit
+wget https://github.com/yasm/yasm/pull/178.patch
+patch -i 178.patch
+cd /uny/sources || exit
 
 archiving_source
 
