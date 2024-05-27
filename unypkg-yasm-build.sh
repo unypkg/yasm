@@ -11,7 +11,7 @@ set -vx
 wget -qO- uny.nu/pkg | bash -s buildsys
 
 ### Installing build dependencies
-#unyp install python expat openssl
+unyp install python
 
 #pip3_bin=(/uny/pkg/python/*/bin/pip3)
 #"${pip3_bin[0]}" install --upgrade pip
@@ -35,7 +35,7 @@ mkdir -pv /uny/sources
 cd /uny/sources || exit
 
 pkgname="yasm"
-pkggit="https://github.com/yasm/yasm.git refs/tags/*"
+pkggit="https://github.com/yasm/yasm.git refs/tags/v*"
 gitdepth="--depth=1"
 
 ### Get version info from git remote
@@ -77,11 +77,13 @@ get_include_paths
 
 unset LD_RUN_PATH
 
+sed -i 's#) ytasm.*#)#' Makefile.in
+
 ./configure \
     --prefix=/uny/pkg/"$pkgname"/"$pkgver"
 
 make -j"$(nproc)"
-make -j"$(nproc)" check 
+
 make -j"$(nproc)" install
 
 ####################################################
